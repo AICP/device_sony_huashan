@@ -53,6 +53,7 @@
 /dev/smd4                 0660   system     system
 /dev/smd_cxm_qmi          0640   radio      radio
 /dev/smd7                 0660   bluetooth  bluetooth
+/dev/radio0               0640   system     system
 /dev/rfcomm0              0660   bluetooth  bluetooth
 /dev/gss                  0660   gps        gps
 /dev/smdcntl0             0640   radio      radio
@@ -147,7 +148,6 @@
 /dev/msm_preproc_ctl      0660   system     audio
 /dev/msm_rtac             0660   system     audio
 /dev/msm_voicememo        0660   system     audio
-/dev/radio0               0640   system     system
 /dev/smd3                 0660   bluetooth  net_bt_stack
 /dev/smd2                 0660   bluetooth  net_bt_stack
 /dev/ttyHSL1              0660   system     system
@@ -168,14 +168,44 @@
 /sys/devices/i2c-12/12-*  enable  0664 system system
 /sys/devices/i2c-12/12-*  poll_delay 0664 system system
 
+# LibAls AS3677
+/sys/devices/i2c-10/10-0040            adc_als_value         0664 system system
+/sys/devices/i2c-10/10-0040            als_lx                0664 system camera
+/sys/devices/i2c-10/10-0040            als_on                0664 system camera
+/sys/devices/i2c-10/10-0040            als_group1            0666 system system
+/sys/devices/i2c-10/10-0040            als_fsm               0666 system system
+/sys/devices/i2c-10/10-0040            als_use_fsm           0666 system system
+/sys/devices/i2c-10/10-0040/leds/lcd-* als_group             0666 system system
+/sys/devices/i2c-10/10-0040/leds/lcd-* brightness            0660 system system
+/sys/devices/i2c-10/10-0040/leds/lcd-* max_brightness        0640 system system
+
+# LibLights AS3665
+/sys/devices/i2c-10/10-0047            audio_agc_ctrl        0660 system system
+/sys/devices/i2c-10/10-0047            audio_agc_time        0660 system system
+/sys/devices/i2c-10/10-0047            audio_buf_gain        0660 system system
+/sys/devices/i2c-10/10-0047            audio_en              0660 system system
+/sys/devices/i2c-10/10-0047            sequencer1_mode       0660 system system
+/sys/devices/i2c-10/10-0047            sequencer2_mode       0660 system system
+/sys/devices/i2c-10/10-0047            sequencer3_mode       0660 system system
+/sys/devices/i2c-10/10-0047            sequencer1_run_mode   0660 system system
+/sys/devices/i2c-10/10-0047            sequencer2_run_mode   0660 system system
+/sys/devices/i2c-10/10-0047            sequencer3_run_mode   0660 system system
+/sys/devices/i2c-10/10-0047            sequencer_load        0660 system system
+/sys/devices/i2c-10/10-0047/leds/*     brightness            0660 system system
+/sys/devices/i2c-10/10-0047/leds/*     led_current           0660 system system
+/sys/devices/i2c-10/10-0047/leds/*     trigger               0660 system system
+
 # BT
-/dev/hidraw0                                     0666  system  system
-/dev/hidraw1                                     0666  system  system
+/dev/hidraw0              0666   system     system
+/dev/hidraw1              0666   system     system
 
 # NFC
 /dev/pn544                0600   nfc         nfc
+
 # wlan
+/dev/rfkill               0660   root       wifi
 /dev/wcnss_wlan           0660   system     system
+/dev/wcnss_ctrl           0660   system     system
 
 # MHL
 /sys/devices/i2c-10/10-0039/mhl/sii8334  adopter_id 0440  system  system

@@ -21,7 +21,6 @@
      for different hardware and product builds. -->
 <resources>
 
-
     <!-- This string array should be overridden by the device to present a list of network
          attributes.  This is used by the connectivity manager to decide which networks can coexist
          based on the hardware -->
@@ -53,7 +52,6 @@
         <item>bt-pan</item>
     </string-array>
 
-
     <!-- If this is true, the screen will come on when you unplug usb/power/whatever. -->
     <bool name="config_unplugTurnsOnScreen">true</bool>
 
@@ -67,70 +65,93 @@
                   autodetected from the Configuration. -->
     <bool name="config_showNavigationBar">true</bool>
 
-    <!-- Flag indicating whether we should enable the automatic brightness in Settings.
-         config_hardware_automatic_brightness_available is not set, so we will use software implementation -->
+    <!-- Minimum screen brightness setting allowed by the power manager.
+        The user is forbidden from setting the brightness below this level. -->
+    <integer name="config_screenBrightnessSettingMinimum">1</integer>
+
+    <!-- Default screen brightness setting.
+         Must be in the range specified by minimum and maximum. -->
+    <integer name="config_screenBrightnessSettingDefault">87</integer>
+
+    <!-- Screen brightness used to dim the screen when the user activity
+        timeout expires.  May be less than the minimum allowed brightness setting
+        that can be set by the user. -->
+    <integer name="config_screenBrightnessDim">10</integer>
+
+    <!-- Flag indicating whether the we should enable the automatic brightness in Settings.
+         Software implementation will be used if config_hardware_auto_brightness_available is not set -->
     <bool name="config_automatic_brightness_available">true</bool>
 
-    <!-- Is the device capable of hot swapping an UICC Card -->
-    <bool name="config_hotswapCapable">true</bool>
-
     <!-- Array of light sensor LUX values to define our levels for auto backlight brightness support.
-        The N entries of this array define N + 1 zones as follows:
-
-        Zone 0: 0 <= LUX < array[0]
-        Zone 1: array[0] <= LUX < array[1]
-        ...
-        Zone N: array[N - 1] <= LUX < array[N]
-        Zone N + 1: array[N] <= LUX < infinity
-
-        Must be overridden in platform specific overlays
-    -->
+         The N entries of this array define N + 1 control points as follows:
+         (1-based arrays)
+         Point 1:            (0, value[1]):             lux <= 0
+         Point 2:     (level[1], value[2]):  0        < lux <= level[1]
+         Point 3:     (level[2], value[3]):  level[2] < lux <= level[3]
+         ...
+         Point N+1: (level[N], value[N+1]):  level[N] < lux
+         The control points must be strictly increasing.  Each control point
+         corresponds to an entry in the brightness backlight values arrays.
+         For example, if LUX == level[1] (first element of the levels array)
+         then the brightness will be determined by value[2] (second element
+         of the brightness values array).
+         Spline interpolation is used to determine the auto-brightness
+         backlight values for LUX levels between these control points.
+         Must be overridden in platform specific overlays -->
     <integer-array name="config_autoBrightnessLevels">
-        <item>3</item>
-        <item>6</item>
-        <item>12</item>
-        <item>19</item>
-        <item>25</item>
+        <item>10</item>
         <item>50</item>
         <item>100</item>
-        <item>150</item>
         <item>200</item>
-        <item>300</item>
         <item>400</item>
-        <item>600</item>
-        <item>900</item>
+        <item>500</item>
+        <item>800</item>
+        <item>1000</item>
+        <item>1600</item>
+        <item>3000</item>
+        <item>10000</item>
+    </integer-array>
+
+    <!-- Array of output values for LCD backlight corresponding to the LUX values
+         in the config_autoBrightnessLevels array.  This array should have size one greater
+         than the size of the config_autoBrightnessLevels array.
+         This must be overridden in platform specific overlays -->
+    <integer-array name="config_autoBrightnessLcdBacklightValues">
+        <item>14</item>   <!-- 0-10 -->
+        <item>28</item>   <!-- 10-50 -->
+        <item>37</item>   <!-- 50-100 -->
+        <item>51</item>   <!-- 100-200 -->
+        <item>71</item>   <!-- 200-400 -->
+        <item>80</item>   <!-- 400-500 -->
+        <item>96</item>   <!-- 500-800 -->
+        <item>108</item>  <!-- 800-1000 -->
+        <item>144</item>  <!-- 1000-1600 -->
+        <item>181</item>  <!-- 1600-3000 -->
+        <item>254</item>  <!-- 3000-10000 -->
+        <item>255</item>  <!-- 10000+ -->
     </integer-array>
 
     <!-- Array of output values for button backlight corresponding to the LUX values
         in the config_autoBrightnessLevels array. This array should have size one greater
         than the size of the config_autoBrightnessLevels array.
     -->
-    <integer-array name="config_autoBrightnessLcdBacklightValues">
-        <item>1</item>    <!-- 0-3 -->
-        <item>11</item>   <!-- 3-6 -->
-        <item>22</item>   <!-- 6-12 -->
-        <item>38</item>   <!-- 12-19 -->
-        <item>47</item>   <!-- 19-25 -->
-        <item>63</item>   <!-- 25-50 -->
-        <item>85</item>   <!-- 50-100 -->
-        <item>94</item>   <!-- 100-150 -->
-        <item>110</item>  <!-- 150-200 -->
-        <item>126</item>  <!-- 200-300 -->
-        <item>162</item>  <!-- 300-400 -->
-        <item>196</item>  <!-- 400-600 -->
-        <item>250</item>  <!-- 600-900 -->
-        <item>255</item>  <!-- 900+ -->
+    <integer-array name="config_autoBrightnessButtonBacklightValues">
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
     </integer-array>
 
-    <!-- Minimum screen brightness allowed by the power manager. -->
-    <integer name="config_screenBrightnessDim">1</integer>
-
-    <!-- Minimum screen brightness setting allowed by the power manager.
-         The user is forbidden from setting the brightness below this level. -->
-    <integer name="config_screenBrightnessSettingMinimum">1</integer>
-
-    <!-- We don't have button backlight. -->
-    <integer name="config_buttonBrightnessSettingDefault">0</integer>
+    <!-- Is the device capable of hot swapping an UICC Card -->
+    <bool name="config_hotswapCapable">true</bool>
 
     <!-- Package name(s) containing location provider support.
          These packages can contain services implementing location providers,
@@ -168,8 +189,6 @@
     <string-array translatable="false" name="config_tether_wifi_regexs">
         <item>"wlan0"</item>
     </string-array>
-
-
 
     <!-- National Language Identifier codes for the following two config items.
          (from 3GPP TS 23.038 V9.1.1 Table 6.2.1.2.4.1):
@@ -210,7 +229,6 @@
         <item>5</item>
         <item>7</item>
     </integer-array>
-
 
     <!-- Boolean indicating whether the wifi chipset supports background scanning mechanism.
          This mechanism allows the host to remain in suspend state and the dongle to actively
@@ -256,13 +274,13 @@
 
     <!-- Defines the system property to set for performance profile xe: sys.cpu.modes. Leave it
          blank if the device do not support performance profiles -->
-    <string name="config_perf_profile_prop" translatable="false">sys.perf.profile</string>
+    <string name="config_perf_profile_prop">sys.perf.profile</string>
 
     <!-- When config_perf_profile_prop is defined, this value MUST be the index of
          one of the listes values in frameworks/base/core/res/res/values/cm_arrays.xml
          for "perf_profile_values" array. Leave it blank if the device do not support
          performance profiles  -->
-    <string name="config_perf_profile_default_entry" translatable="false">1</string>
+    <string name="config_perf_profile_default_entry">1</string>
 
     <!-- Is the notification LED intrusive? Used to decide if there should be a disable option -->
     <bool name="config_intrusiveNotificationLed">true</bool>
@@ -272,8 +290,8 @@
 
     <!-- Does the battery LED support multiple colors? Used to decide if the user can change the colors -->
     <bool name="config_multiColorBatteryLed">true</bool>
-
-    <!-- Does the notification LED support multiple colors? Used to decide if the user can change the colors -->
+	
+	<!-- Does the notification LED support multiple colors? Used to decide if the user can change the colors -->
     <bool name="config_multiColorNotificationLed">true</bool>
 
     <!-- Enable lockscreen translucent decor -->
@@ -281,7 +299,21 @@
 
     <!--  Maximum number of supported users -->
     <integer name="config_multiuserMaximumUsers">4</integer>
+
     <!--  Whether Multiuser UI should be shown -->
     <bool name="config_enableMultiUserUI">true</bool>
+
+    <!-- Setting this true forces the headset jack switches to use the/dev/input/event subsystem
+         rather than the uevent framework. -->
+    <bool name="config_useDevInputEventForAudioJack">true</bool>
+
+    <!-- The default iface on which to monitor data use -->
+    <string name="config_datause_iface" translatable="false">rmnet_usb0</string>
+
+    <!-- Doze -->
+    <string name="config_dozeComponent">com.android.systemui/com.android.systemui.doze.DozeService</string>
+    <bool name="config_powerDecoupleInteractiveModeFromDisplay">true</bool>
+    <bool name="config_dozeAfterScreenOff">true</bool>
+    <integer name="config_screenBrightnessDoze">17</integer>
 
 </resources>

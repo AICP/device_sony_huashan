@@ -7,10 +7,12 @@ SectionVerb
 
 	EnableSequence
 		'SLIMBUS_0_RX Audio Mixer MultiMedia1':1:1
+		'INTERNAL_FM_RX Audio Mixer MultiMedia1':1:1
 	EndSequence
 
 	DisableSequence
 		'SLIMBUS_0_RX Audio Mixer MultiMedia1':1:0
+		'INTERNAL_FM_RX Audio Mixer MultiMedia1':1:0
 	EndSequence
 
 	# ALSA PCMs
@@ -441,10 +443,12 @@ SectionVerb
 
 	EnableSequence
 		'SLIMBUS_0_RX Audio Mixer MultiMedia2':1:1
+		'INTERNAL_FM_RX Audio Mixer MultiMedia2':1:1
 	EndSequence
 
 	DisableSequence
 		'SLIMBUS_0_RX Audio Mixer MultiMedia2':1:0
+		'INTERNAL_FM_RX Audio Mixer MultiMedia2':1:0
 	EndSequence
 
 	# ALSA PCMs
@@ -843,10 +847,12 @@ SectionVerb
 
 	EnableSequence
 		'SLIMBUS_0_RX Audio Mixer MultiMedia5':1:1
+		'INTERNAL_FM_RX Audio Mixer MultiMedia5':1:1
 	EndSequence
 
 	DisableSequence
 		'SLIMBUS_0_RX Audio Mixer MultiMedia5':1:0
+		'INTERNAL_FM_RX Audio Mixer MultiMedia5':1:0
 	EndSequence
 
 	# ALSA PCMs
@@ -1245,10 +1251,12 @@ SectionVerb
 
 	EnableSequence
 		'SLIMBUS_0_RX Audio Mixer MultiMedia3':1:1
+		'INTERNAL_FM_RX Audio Mixer MultiMedia3':1:1
 	EndSequence
 
 	DisableSequence
 		'SLIMBUS_0_RX Audio Mixer MultiMedia3':1:0
+		'INTERNAL_FM_RX Audio Mixer MultiMedia3':1:0
 	EndSequence
 
 	# ALSA PCMs
@@ -2503,10 +2511,12 @@ SectionVerb
 
 	EnableSequence
 		'SLIMBUS_0_RX Audio Mixer MultiMedia4':1:1
+		'INTERNAL_FM_RX Audio Mixer MultiMedia4':1:1
 	EndSequence
 
 	DisableSequence
 		'SLIMBUS_0_RX Audio Mixer MultiMedia4':1:0
+		'INTERNAL_FM_RX Audio Mixer MultiMedia4':1:0
 	EndSequence
 
 	# ALSA PCMs
@@ -2913,10 +2923,12 @@ SectionVerb
 
 	EnableSequence
 		'SLIMBUS_0_RX Audio Mixer MultiMedia7':1:1
+		'INTERNAL_FM_RX Audio Mixer MultiMedia7':1:1
 	EndSequence
 
 	DisableSequence
 		'SLIMBUS_0_RX Audio Mixer MultiMedia7':1:0
+		'INTERNAL_FM_RX Audio Mixer MultiMedia7':1:0
 	EndSequence
 
 	# ALSA PCMs
@@ -3576,10 +3588,12 @@ SectionVerb
 
 	EnableSequence
 		'SLIMBUS_0_RX Audio Mixer MultiMedia5':1:1
+		'INTERNAL_FM_RX Audio Mixer MultiMedia5':1:1
 	EndSequence
 
 	DisableSequence
 		'SLIMBUS_0_RX Audio Mixer MultiMedia5':1:0
+		'INTERNAL_FM_RX Audio Mixer MultiMedia5':1:0
 	EndSequence
 
 	# ALSA PCMs
@@ -4105,7 +4119,7 @@ SectionDevice
 		'RX3 MIX1 INP2':0:RX2
 		'LINEOUT1 DAC Switch':1:1
                 'LINEOUT1 Volume':1:100
-	    'RX3 Digital Volume':1:71
+		'RX3 Digital Volume':1:71
 	EndSequence
 
 	DisableSequence
@@ -5844,10 +5858,12 @@ SectionModifier
 
 	EnableSequence
 		'SLIMBUS_0_RX Audio Mixer MultiMedia1':1:1
+		'INTERNAL_FM_RX Audio Mixer MultiMedia1':1:1
 	EndSequence
 
 	DisableSequence
 		'SLIMBUS_0_RX Audio Mixer MultiMedia1':1:0
+		'INTERNAL_FM_RX Audio Mixer MultiMedia1':1:0
 	EndSequence
 
 	# ALSA PCMs
@@ -6007,10 +6023,12 @@ SectionModifier
 
 	EnableSequence
 		'SLIMBUS_0_RX Audio Mixer MultiMedia2':1:1
+		'INTERNAL_FM_RX Audio Mixer MultiMedia2':1:1
 	EndSequence
 
 	DisableSequence
 		'SLIMBUS_0_RX Audio Mixer MultiMedia2':1:0
+		'INTERNAL_FM_RX Audio Mixer MultiMedia2':1:0
 	EndSequence
 
 	# ALSA PCMs
@@ -6230,10 +6248,12 @@ SectionModifier
 
 	EnableSequence
 		'SLIMBUS_0_RX Audio Mixer MultiMedia3':1:1
+		'INTERNAL_FM_RX Audio Mixer MultiMedia3':1:1
 	EndSequence
 
 	DisableSequence
 		'SLIMBUS_0_RX Audio Mixer MultiMedia3':1:0
+		'INTERNAL_FM_RX Audio Mixer MultiMedia3':1:0
 	EndSequence
 
 	# ALSA PCMs
@@ -6730,10 +6750,12 @@ SectionModifier
 
 	EnableSequence
 		'SLIMBUS_0_RX Audio Mixer MultiMedia4':1:1
+		'INTERNAL_FM_RX Audio Mixer MultiMedia4':1:1
 	EndSequence
 
 	DisableSequence
 		'SLIMBUS_0_RX Audio Mixer MultiMedia4':1:0
+		'INTERNAL_FM_RX Audio Mixer MultiMedia4':1:0
 	EndSequence
 
 	# ALSA PCMs
@@ -8309,10 +8331,12 @@ SectionModifier
 
 	EnableSequence
 		'SLIMBUS_0_RX Audio Mixer MultiMedia5':1:1
+		'INTERNAL_FM_RX Audio Mixer MultiMedia5':1:1
 	EndSequence
 
 	DisableSequence
 		'SLIMBUS_0_RX Audio Mixer MultiMedia5':1:0
+		'INTERNAL_FM_RX Audio Mixer MultiMedia5':1:0
 	EndSequence
 
 	# ALSA PCMs
@@ -8709,10 +8733,12 @@ SectionModifier
 
 	EnableSequence
 		'SLIMBUS_0_RX Audio Mixer MultiMedia7':1:1
+		'INTERNAL_FM_RX Audio Mixer MultiMedia7':1:1
 	EndSequence
 
 	DisableSequence
 		'SLIMBUS_0_RX Audio Mixer MultiMedia7':1:0
+		'INTERNAL_FM_RX Audio Mixer MultiMedia7':1:0
 	EndSequence
 
 	# ALSA PCMs
@@ -9087,10 +9113,12 @@ SectionModifier
 	Comment "Modifier for Lowlatency music playback"
 
 	EnableSequence
+		'INTERNAL_FM_RX Audio Mixer MultiMedia5':1:1
 		'SLIMBUS_0_RX Audio Mixer MultiMedia5':1:1
 	EndSequence
 
 	DisableSequence
+		'INTERNAL_FM_RX Audio Mixer MultiMedia5':1:0
 		'SLIMBUS_0_RX Audio Mixer MultiMedia5':1:0
 	EndSequence
 

@@ -12,11 +12,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.vendor.extension_library=libqti-perfd-client.so
+
 # inherit from msm8960-common
 $(call inherit-product, device/sony/msm8960-common/msm8960.mk)
 
 DEVICE_PACKAGE_OVERLAYS += device/sony/huashan/overlay
 
+# This device is xhdpi.
 PRODUCT_AAPT_CONFIG := normal
 PRODUCT_AAPT_PREF_CONFIG := xhdpi
 
@@ -104,9 +108,9 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/rootdir/system/etc/hw_config.sh:system/etc/hw_config.sh
 
-# Sony system_monitor
+# Thermal monitor configuration
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/rootdir/system/etc/sysmon.cfg:system/etc/sysmon.cfg
+    $(LOCAL_PATH)/rootdir/system/etc/thermanager.xml:system/etc/thermanager.xml
 
 # NFC Support
 PRODUCT_PACKAGES += \
@@ -149,7 +153,9 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     FM2 \
     FMRecord \
-    libqcomfm_jni \
+    libqcomfm_jni
+
+PRODUCT_PACKAGES += \
     qcom.fmradio
 
 # Bluetooth
@@ -169,12 +175,20 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 # Sensors
 PRODUCT_PACKAGES += \
-    sensors.default
+    sensors.msm8960
+
+# Thermal management
+PRODUCT_PACKAGES += \
+    thermanager
 
 # Wifi service
 PRODUCT_PACKAGES += \
     mac-update \
     wcnss_service
+
+# DRM
+PRODUCT_PROPERTY_OVERRIDES += \
+    drm.service.enabled=true
 
 # Misc
 PRODUCT_PACKAGES += \
@@ -197,7 +211,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 # Display
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.sf.lcd_density=320 \
     debug.composition.type=c2d
 
 # Audio
@@ -228,16 +241,22 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.telephony.call_ring.multiple=0
 
+# Optimizations
+PRODUCT_PROPERTY_OVERRIDES += \
+	persist.sys.force_highendgfx=true \
+	dalvik.vm.jit.codecachesize=0 \
+	ro.config.max_starting_bg=8 \
+	ro.sys.fw.bg_apps_limit=16 \
+	config.disable_atlas=true
+
+PRODUCT_PACKAGES += libtime_genoff
+
 # OpenGL ES 3.0
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.opengles.version=196608
 
 # call dalvik heap config
-$(call inherit-product-if-exists, frameworks/native/build/phone-xhdpi-1024-dalvik-heap.mk)
+$(call inherit-product, frameworks/native/build/phone-xhdpi-1024-dalvik-heap.mk)
 
 # Include non-opensource parts
 $(call inherit-product, vendor/sony/huashan/huashan-vendor.mk)
-
-# Include own Adreno blobs
-$(call inherit-product, vendor/sony/huashan/huashan-adreno-blobs.mk)
-
