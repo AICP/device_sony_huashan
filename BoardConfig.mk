@@ -60,8 +60,6 @@ BOARD_USE_SONY_MACUPDATE := true
 
 BOARD_HARDWARE_CLASS := device/sony/huashan/cmhw
 
-
-
 # Sensors
 SOMC_CFG_SENSORS := true
 SOMC_CFG_SENSORS_ACCELEROMETER_LSM303DLHC_LT := yes
