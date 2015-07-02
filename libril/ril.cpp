@@ -272,6 +272,7 @@ static void dispatchCdmaSmsAck(Parcel &p, RequestInfo *pRI);
 static void dispatchGsmBrSmsCnf(Parcel &p, RequestInfo *pRI);
 static void dispatchCdmaBrSmsCnf(Parcel &p, RequestInfo *pRI);
 static void dispatchRilCdmaSmsWriteArgs(Parcel &p, RequestInfo *pRI);
+static void dispatchNetworkManual (Parcel& p, RequestInfo *pRI);
 static void dispatchNVReadItem(Parcel &p, RequestInfo *pRI);
 static void dispatchNVWriteItem(Parcel &p, RequestInfo *pRI);
 static void dispatchUiccSubscripton(Parcel &p, RequestInfo *pRI);
@@ -279,6 +280,7 @@ static void dispatchSimAuthentication(Parcel &p, RequestInfo *pRI);
 static void dispatchDataProfile(Parcel &p, RequestInfo *pRI);
 static void dispatchRadioCapability(Parcel &p, RequestInfo *pRI);
 static int responseInts(Parcel &p, void *response, size_t responselen);
+static int responseDataRegistrationState(Parcel &p, void *response, size_t responselen);
 static int responseStrings(Parcel &p, void *response, size_t responselen);
 static int responseString(Parcel &p, void *response, size_t responselen);
 static int responseVoid(Parcel &p, void *response, size_t responselen);
@@ -572,7 +574,9 @@ dispatchString (Parcel& p, RequestInfo *pRI) {
     size_t datalen;
     size_t stringlen;
     char *string8 = NULL;
+    int rqn;
 
+    rqn = pRI->pCI->requestNumber;
     string8 = strdupReadString(p);
 
     startRequest;
@@ -582,6 +586,19 @@ dispatchString (Parcel& p, RequestInfo *pRI) {
 
     CALL_ONREQUEST(pRI->pCI->requestNumber, string8,
                        sizeof(char *), pRI, pRI->socket_id);
+
+    if (rqn == pRI->pCI->requestNumber) {
+        RLOGE("pabx: WARNING: qcomril did NOT handle request %d\n", rqn);
+        switch (rqn) {
+            case RIL_REQUEST_SIM_OPEN_CHANNEL:
+                RLOGE("pabx: sending error for SIM_OPEN_CHANNEL request\n");
+                RIL_onRequestComplete(pRI, RIL_E_GENERIC_FAILURE, NULL, 0); // required to trigger the SIM_READY / LOADED event in UiccCarrierPrivilegeRules.java
+                break;
+            default:
+                RLOGE("pabx: note: this error was not reported to the upper subsystem\n");
+        }
+    }
+
 
 #ifdef MEMSET_FREED
     memsetString(string8);
@@ -643,6 +660,58 @@ dispatchStrings (Parcel &p, RequestInfo *pRI) {
 #ifdef MEMSET_FREED
         memset(pStrings, 0, datalen);
 #endif
+    }
+
+    return;
+invalid:
+    invalidCommandBlock(pRI);
+    return;
+}
+
+/** Callee expects const char * */
+static void
+dispatchNetworkManual (Parcel& p, RequestInfo *pRI) {
+    status_t status;
+    size_t datalen;
+    char **pStrings;
+
+    datalen = sizeof(char *) * 2;
+
+    startRequest;
+    pStrings = (char **)alloca(datalen);
+
+    pStrings[0] = strdupReadString(p);
+    appendPrintBuf("%s%s,", printBuf, pStrings[0]);
+    pStrings[1] = NULL;
+    closeRequest;
+    printRequest(pRI->token, pRI->pCI->requestNumber);
+
+    s_callbacks.onRequest(pRI->pCI->requestNumber, pStrings, datalen, pRI);
+
+    if (pStrings != NULL) {
+        for (int i = 0 ; i < 2 ; i++) {
+#ifdef MEMSET_FREED
+            memsetString (pStrings[i]);
+#endif
+            free(pStrings[i]);
+        }
+
+#ifdef MEMSET_FREED
+        memset(pStrings, 0, datalen);
+#endif
+    }
+
+    if (pRI->pCI->requestNumber == RIL_REQUEST_SET_NETWORK_SELECTION_MANUAL) {
+        /**
+         * Qualcomm's RIL doesn't seem to issue any callbacks for opcode 47
+         * This may be a bug on how we call rild or simply some proprietary 'feature'
+         * ..and we don't care: We simply send a SUCCESS message back to the caller to
+         * indicate that we received the command & unblock the UI.
+         * The user will still see if the registration was OK by using the
+         * normal signal meter
+        */
+        RLOGE("pabx: manual network selection: sending fake success event");
+        RIL_onRequestComplete(pRI, RIL_E_SUCCESS, NULL, 0);
     }
 
     return;
@@ -871,6 +940,9 @@ dispatchSIM_IO (Parcel &p, RequestInfo *pRI) {
     // note we only check status at the end
 
     status = p.readInt32(&t);
+
+    simIO.v6.cla = 0;
+
     simIO.v6.command = (int)t;
 
     status = p.readInt32(&t);
@@ -2169,6 +2241,31 @@ static int responseStringsWithVersion(int version, Parcel &p, void *response, si
     return responseStrings(p, response, responselen);
 }
 
+static int responseDataRegistrationState(Parcel &p, void *response, size_t responselen) {
+    int numStrings = responselen / sizeof(char *);
+    int forcedTech = 0;
+
+    if (numStrings >= 4 && response != NULL) { /* we are going to modify index 3 */
+        char **p_cur = (char **) response;
+
+        if ( p_cur[3] != NULL && strlen(p_cur[3]) == 2 ) { // p_cur[3] is 3 bytes long
+
+            if (!memcmp("18", p_cur[3], 3)) {
+                forcedTech = RADIO_TECH_HSPAP; // actually RADIO_TECH_DC_HSDPA
+            } else if (!memcmp("19", p_cur[3], 3)) {
+                forcedTech = RADIO_TECH_UMTS; // some variant of 3g?!
+            }
+
+            if (forcedTech) {
+                RLOGI("pabx: forcefully setting radio tech to %d", forcedTech);
+                snprintf(p_cur[3], 3, "%d", forcedTech);
+            }
+        }
+    }
+
+    return responseStrings(p, response, responselen);
+}
+
 /** response is a char **, pointing to an array of char *'s */
 static int responseStrings(Parcel &p, void *response, size_t responselen) {
     int numStrings;
@@ -2850,6 +2947,9 @@ static int responseCdmaInformationRecords(Parcel &p,
 
 static int responseRilSignalStrength(Parcel &p,
                     void *response, size_t responselen) {
+
+    float qc_sq = 0;
+
     if (response == NULL && responselen != 0) {
         RLOGE("invalid response: NULL");
         return RIL_ERRNO_INVALID_RESPONSE;
@@ -2892,6 +2992,16 @@ static int responseRilSignalStrength(Parcel &p,
                     p_cur->LTE_SignalStrength.cqi = INT_MAX;
                 }
             }
+
+            // Qcoms RIL reports the raw lte value (75..120dbM)
+            // but android expects 44..140dbM
+            qc_sq = (120 - p_cur->LTE_SignalStrength.signalStrength) * 2.22; // signal quality in percent: 0..100
+            if (qc_sq >= 0 && qc_sq <= 100) {
+                p_cur->LTE_SignalStrength.signalStrength = (qc_sq/3.2); // percent to 0..31 range
+                p_cur->LTE_SignalStrength.rsrp = 140-(qc_sq*0.96);      // 44 <-> 140dBm range
+            }
+            // RLOGI("pabx: reporting qc_sq=%.2f, ss=%d, rsrp=%d\n", qc_sq, p_cur->LTE_SignalStrength.signalStrength, p_cur->LTE_SignalStrength.
+
             p.writeInt32(p_cur->LTE_SignalStrength.signalStrength);
             p.writeInt32(p_cur->LTE_SignalStrength.rsrp);
             p.writeInt32(p_cur->LTE_SignalStrength.rsrq);
