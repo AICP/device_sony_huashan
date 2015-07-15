@@ -1,4 +1,5 @@
 bin/btnvtool
+bin/chargemon
 bin/ds_fmc_appd
 bin/efsks
 bin/fm_qsoc_patches
@@ -168,7 +169,6 @@ lib/libmmcamera_wavelet_lib.so
 lib/libmmjpeg.so
 lib/libmmstillomx.so
 lib/libnetmgr.so
-lib/liboemcrypto.so
 lib/liboemcamera.so
 lib/libpin-cache.so
 lib/libprotobuf-c.so
@@ -198,13 +198,11 @@ vendor/camera/SOI08BS3_IMX134.dat
 vendor/camera/STW00YP1.dat
 vendor/camera/flash.dat
 vendor/camera/product.dat
-vendor/lib/drm/libdrmwvmplugin.so
 vendor/lib/egl/eglsubAndroid.so
 vendor/lib/egl/libEGL_adreno.so
 vendor/lib/egl/libGLESv1_CM_adreno.so
 vendor/lib/egl/libGLESv2_adreno.so
 vendor/lib/egl/libq3dtools_adreno.so
-vendor/lib/mediadrm/libwvdrmengine.so
 vendor/lib/libC2D2.so
 vendor/lib/libCB.so
 vendor/lib/libOpenCL.so
@@ -229,7 +227,7 @@ vendor/lib/libquipc_ulp_adapter.so
 vendor/lib/libsc-a3xx.so
 -vendor/lib/libtime_genoff.so
 vendor/lib/libulp2.so
-vendor/lib/libwvdrm_L1.so
+vendor/lib/libwvdrm_L3.so
 vendor/lib/libwvm.so
-vendor/lib/libWVphoneAPI.so
-vendor/lib/libWVStreamControlAPI_L1.so
+vendor/lib/libWVStreamControlAPI_L3.so
+vendor/lib/mediadrm/libwvdrmengine.so
