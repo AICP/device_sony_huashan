@@ -1,8 +1,8 @@
 [
   {
-    "repository": "Mrcl1450/android_device_sony_msm8960-common",
+    "repository": "AdrianDC/android_device_sony_msm8960-common",
     "target_path": "device/sony/msm8960-common",
-    "branch":      "cm-12.1"
+    "branch":      "cm-12.1_clean"
   },
   {
     "repository": "Mrcl1450/android_hardware_sony_thermanager",
