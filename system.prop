@@ -19,7 +19,6 @@ ro.fm.transmitter=true
 
 ro.sf.lcd_density=320
 
-
 # hardware info
 ro.device.chipset=Qualcomm MSM8960T Snapdragon S4 Pro
 ro.device.cpu=Dual-core 1.7 GHz Krait
