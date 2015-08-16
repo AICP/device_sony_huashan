@@ -25,7 +25,7 @@
     "branch":      "cm-12.1"
   },
   {
-    "repository": "Mrcl1450/android_hardware_sony_DASH",
+    "repository": "CyanogenMod/android_hardware_sony_DASH",
     "target_path": "hardware/sony/DASH",
     "branch":      "cm-12.1"
   },
