@@ -44,6 +44,13 @@
         <item>bluetooth,7,7,2,-1,true</item>
     </string-array>
 
+    <!-- Set to true to add links to Cell Broadcast app from Settings and MMS app. -->
+    <bool name="config_cellBroadcastAppLinks">true</bool>
+
+    <!-- Boolean indicating if restoring network selection should be skipped -->
+    <!-- The restoring is handled by modem if it is true-->
+    <bool translatable="false" name="skip_restoring_network_selection">true</bool>
+
     <!-- List of regexpressions describing the interface (if any) that represent tetherable
          bluetooth interfaces.  If the device doesn't want to support tethering over bluetooth this
          should be empty. -->
@@ -133,6 +140,14 @@
         <item>254</item>  <!-- 3000-10000 -->
         <item>255</item>  <!-- 10000+ -->
     </integer-array>
+
+    <!-- Screen brightness when dozing. -->
+    <integer name="config_screenBrightnessDoze">20</integer>
+
+    <!-- Dream of notifications -->
+    <string name="config_dozeComponent">com.android.systemui/com.android.systemui.doze.DozeService</string>
+    <bool name="config_dozeAfterScreenOff">true</bool>
+    <bool name="config_powerDecoupleInteractiveModeFromDisplay">true</bool>
 
     <!-- Package name(s) containing location provider support.
          These packages can contain services implementing location providers,
@@ -263,9 +278,6 @@
          for "perf_profile_values" array. Leave it blank if the device do not support
          performance profiles  -->
     <string name="config_perf_profile_default_entry" translatable="false">1</string>
-
-    <!-- Is the notification LED brightness adjustable ? Used to decide if the user can set LED brightness -->
-    <bool name="config_adjustableNotificationLedBrightness">true</bool>
 
     <!-- Is the notification LED intrusive? Used to decide if there should be a disable option -->
     <bool name="config_intrusiveNotificationLed">true</bool>
