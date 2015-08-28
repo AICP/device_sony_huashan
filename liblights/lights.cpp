@@ -537,4 +537,3 @@ struct hw_module_t HAL_MODULE_INFO_SYM = {
     .dso = NULL,
     .reserved = {0},
 };
-
