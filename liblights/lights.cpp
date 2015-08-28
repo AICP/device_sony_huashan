@@ -38,7 +38,6 @@
 
 /* ===================================================================== */
 /* === Module Constants === */
-#define LIGHT_BRIGHTNESS_MAXIMUM 0xFF
 #define MAX_PATH_SIZE 80
 enum leds_state { LEDS_OFF, LEDS_NOTIFICATIONS, LEDS_BATTERY };
 enum leds_pupdate { LEDS_PROGRAM_KEEP, LEDS_PROGRAM_UPDATE };
@@ -51,7 +50,6 @@ static pthread_once_t g_init = PTHREAD_ONCE_INIT;
 static pthread_mutex_t g_lock = PTHREAD_MUTEX_INITIALIZER;
 static struct light_state_t g_notification;
 static struct light_state_t g_battery;
-static unsigned int g_leds_brightness = 0;
 static int g_leds_state = LEDS_OFF;
 static int g_leds_program_mode = LEDS_PROGRAM_OFF;
 static int g_leds_program_target = LEDS_SEQUENCER_BLINK_CMD_NONE;
@@ -176,7 +174,7 @@ set_light_lcd_backlight(struct light_device_t* dev,
         brightness = LCD_BRIGHTNESS_MAX;
 
     /* LCD brightness update */
-    /*ALOGV("set_light_lcd_backlight : %d / %d", brightness, LCD_BRIGHTNESS_MAX);*/
+    ALOGV("set_light_lcd_backlight : %d / %d", brightness, LCD_BRIGHTNESS_MAX);
     pthread_mutex_lock(&g_lock);
     err |= write_int(LCD_BACKLIGHT1_FILE, brightness);
     err |= write_int(LCD_BACKLIGHT2_FILE, brightness);
@@ -189,7 +187,7 @@ set_light_lcd_backlight(struct light_device_t* dev,
 /* ===================================================================== */
 /* === Module set_light_led_rgb === */
 static void
-set_light_led_rgb(int i, unsigned int leds_rgb[3], unsigned int leds_brightness, int leds_rgb_update)
+set_light_led_rgb(int i, unsigned int leds_rgb[3], int leds_rgb_update)
 {
     int c;
     unsigned int led_current;
@@ -207,13 +205,6 @@ set_light_led_rgb(int i, unsigned int leds_rgb[3], unsigned int leds_brightness,
         /* LED unit current limits for all notifications */
         else {
             led_current_ratio = LEDS_COLORS_CURRENT_NOTIFICATIONS;
-
-            /* Apply the system settings LEDs brightness limit */
-            if (leds_brightness > 0) {
-                led_current_ratio = (led_current_ratio * leds_brightness) / LIGHT_BRIGHTNESS_MAXIMUM;
-                if (led_current_ratio > LEDS_COLORS_CURRENT_MAXIMUM)
-                    led_current_ratio = LEDS_COLORS_CURRENT_MAXIMUM;
-            }
         }
     }
 
@@ -315,20 +306,18 @@ set_light_leds_locked(struct light_device_t* dev,
     int leds_program_update;
     int delayOn, delayOff;
     unsigned int colorRGB;
-    unsigned int leds_brightness;
-    unsigned int led_rgb[3];
+    unsigned int rgb[3];
 
     /* LEDs variables processing */
-    leds_brightness = (state->color & 0xFF000000) >> 24;
     leds_unit_minid = 1;
     leds_unit_maxid = LEDS_UNIT_COUNT;
     delayOn = state->flashOnMS;
     delayOff = state->flashOffMS;
     flashMode = state -> flashMode;
     colorRGB = state->color;
-    led_rgb[0] = (colorRGB >> 16) & 0xFF;
-    led_rgb[1] = (colorRGB >> 8) & 0xFF;
-    led_rgb[2] = colorRGB & 0xFF;
+    rgb[0] = (colorRGB >> 16) & 0xFF;
+    rgb[1] = (colorRGB >> 8) & 0xFF;
+    rgb[2] = colorRGB & 0xFF;
     leds_program_update = LEDS_PROGRAM_UPDATE;
     leds_rgb_update = LEDS_RGB_UPDATE;
 
@@ -343,9 +332,9 @@ set_light_leds_locked(struct light_device_t* dev,
             /* LEDs finished notification reset */
             if (! is_lit(&g_notification))
             {
-                unsigned int led_rgb_off[3] = {0,0,0};
+                unsigned int rgboff[3] = {0,0,0};
                 for (i = 2; i <= LEDS_UNIT_COUNT; ++i) {
-                    set_light_led_rgb(i, led_rgb_off, leds_brightness, LEDS_PROGRAM_UPDATE);
+                    set_light_led_rgb(i, rgboff, LEDS_PROGRAM_UPDATE);
                 }
                 set_light_leds_program(LEDS_PROGRAM_KEEP, LEDS_SEQUENCER_BLINK_CMD_NONE, LIGHT_FLASH_NONE, 0, 0);
             }
@@ -356,13 +345,13 @@ set_light_leds_locked(struct light_device_t* dev,
             leds_unit_minid = 2;
 
             /* LEDs reset battery state */
-            unsigned int led_rgb_bat[3];
+            unsigned int rgbbat[3];
             int current_leds_state = g_leds_state;
             g_leds_state = LEDS_BATTERY;
-            led_rgb_bat[0] = (g_battery.color >> 16) & 0xFF;
-            led_rgb_bat[1] = (g_battery.color >> 8) & 0xFF;
-            led_rgb_bat[2] = g_battery.color & 0xFF;
-            set_light_led_rgb(1, led_rgb_bat, leds_brightness, LEDS_PROGRAM_UPDATE);
+            rgbbat[0] = (g_battery.color >> 16) & 0xFF;
+            rgbbat[1] = (g_battery.color >> 8) & 0xFF;
+            rgbbat[2] = g_battery.color & 0xFF;
+            set_light_led_rgb(1, rgbbat, LEDS_PROGRAM_UPDATE);
             g_leds_state = current_leds_state;
         }
     }
@@ -379,7 +368,7 @@ set_light_leds_locked(struct light_device_t* dev,
     /* Build the LEDs program target */
     leds_program_target = LEDS_SEQUENCER_BLINK_CMD_NONE;
     for (c = 0; c < LEDS_COLORS_COUNT; ++c) {
-        if (led_rgb[c] > 0) {
+        if (rgb[c] > 0) {
             for (i = leds_unit_minid; i <= leds_unit_maxid; ++i) {
                 leds_program_target |= 1 << leds_map[i-1][c];
             }
@@ -391,18 +380,13 @@ set_light_leds_locked(struct light_device_t* dev,
         leds_program_update = LEDS_PROGRAM_UPDATE;
         leds_rgb_update = LEDS_RGB_UPDATE;
     }
-    /* Detection of the brightness update */
-    else if (leds_brightness != g_leds_brightness) {
-        leds_rgb_update = LEDS_RGB_UPDATE;
-    }
     /* Detection of the LEDs RGB update */
     else if (colorRGB == g_leds_RGB) {
-        leds_program_update = LEDS_PROGRAM_KEEP;
+        leds_program_update = LEDS_PROGRAM_UPDATE;
         leds_rgb_update = LEDS_RGB_KEEP;
     }
 
     /* Update global LEDs variables */
-    g_leds_brightness = leds_brightness;
     g_leds_program_target = leds_program_target;
     g_leds_RGB = colorRGB;
 
@@ -412,7 +396,7 @@ set_light_leds_locked(struct light_device_t* dev,
 
     /* LEDs units individual activation */
     for (i = leds_unit_minid; i <= leds_unit_maxid; ++i) {
-        set_light_led_rgb(i, led_rgb, leds_brightness, leds_rgb_update);
+        set_light_led_rgb(i, rgb, /*leds_brightness,*/ leds_rgb_update);
     }
 
     /* LEDs pattern programming */
@@ -420,7 +404,7 @@ set_light_leds_locked(struct light_device_t* dev,
 
     /* LEDs debug text */
     ALOGV("set_light_leds_locked : %d %d %d - delayOn : %d, delayOff : %d - Update : %d/%d - Brightness : %d - LEDs Mode : %d - Mode : %d (Not. 1 / Bat. 2)\n",
-          led_rgb[0], led_rgb[1], led_rgb[2], delayOn, delayOff, leds_rgb_update, leds_program_update, leds_brightness, 1, g_leds_state);
+          rgb[0], rgb[1], rgb[2], delayOn, delayOff, leds_rgb_update, leds_program_update, 255, 1, g_leds_state);
     (void)dev;
     return 0;
 }
