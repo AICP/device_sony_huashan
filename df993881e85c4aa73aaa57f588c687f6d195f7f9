@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7ac40928_d51c2bc4",
+        "filename": "aicp.dependencies",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2015-08-31T13:22:04Z",
+      "side": 1,
+      "message": "We are tracking qcom-common device by default from Manifest",
+      "range": {
+        "startLine": 9,
+        "startChar": 19,
+        "endLine": 9,
+        "endChar": 39
+      },
+      "revId": "df993881e85c4aa73aaa57f588c687f6d195f7f9",
+      "serverId": "9f904cbb-a964-4fab-a7dc-5cfc4d5c238b",
+      "unresolved": false
+    }
+  ]
+}
