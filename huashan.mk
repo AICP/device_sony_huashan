@@ -247,6 +247,10 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     thermanager
 
+# Glove mode
+PRODUCT_PACKAGES += \
+    DeviceSettings
+
 # Set default USB interface
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
     persist.sys.usb.config=mtp
@@ -265,10 +269,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # Perfd
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.vendor.extension_library=libqti-perfd-client.so
-
-# Doze mode
-PRODUCT_PACKAGES += \
-    DeviceSettings
 
 # Display
 PRODUCT_PROPERTY_OVERRIDES += \
