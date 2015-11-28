@@ -1,5 +1,4 @@
 app/QuickBoot/QuickBoot.apk
-bin/btnvtool
 bin/ds_fmc_appd
 bin/efsks
 bin/fm_qsoc_patches
