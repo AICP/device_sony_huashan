@@ -22,6 +22,30 @@
       "revId": "764cc66528f06c75a2468d36eec2543a42ba1e3c",
       "serverId": "9f904cbb-a964-4fab-a7dc-5cfc4d5c238b",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_3594a836",
+        "filename": "overlay/packages/apps/Dialer/res/values/config.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 258
+      },
+      "writtenOn": "2016-02-09T19:32:58Z",
+      "side": 1,
+      "message": "Pranav activated it a while ago, and I prefer keeping it to have my trees synced.\n\nMerging the recent CM-12.1 updates and the final ones when I\u0027m done with the kernel for a \"final\" release.",
+      "parentUuid": "da33351e_f5724048",
+      "range": {
+        "startLine": 15,
+        "startChar": 16,
+        "endLine": 15,
+        "endChar": 51
+      },
+      "revId": "764cc66528f06c75a2468d36eec2543a42ba1e3c",
+      "serverId": "9f904cbb-a964-4fab-a7dc-5cfc4d5c238b",
+      "unresolved": false
     }
   ]
 }
