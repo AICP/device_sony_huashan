@@ -1,0 +1,32 @@
+[
+  {
+    "repository": "CyanogenMod/android_device_sony_common",
+    "target_path": "device/sony/common",
+    "branch": "cm-14.1"
+  },
+  {
+    "repository": "CyanogenMod/android_kernel_sony_msm8960t",
+    "target_path": "kernel/sony/msm8960t",
+    "branch": "cm-14.1"
+  },
+  {
+    "repository": "CyanogenMod/android_external_stlport",
+    "target_path": "external/stlport",
+    "branch": "cm-14.1"
+  },
+  {
+    "repository": "CyanogenMod/android_hardware_sony_DASH",
+    "target_path": "hardware/sony/DASH",
+    "branch": "cm-14.1"
+  },
+  {
+    "repository": "CyanogenMod/android_hardware_sony_thermanager",
+    "target_path": "hardware/sony/thermanager",
+    "branch": "cm-14.1"
+  },
+  {
+    "repository": "TheMuppets/proprietary_vendor_sony",
+    "target_path": "vendor/sony",
+    "branch": "cm-14.1"
+  }
+]
