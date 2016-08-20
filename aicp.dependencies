@@ -25,8 +25,8 @@
     "branch": "cm-13.0"
   },
   {
-    "repository": "AICP/proprietary_vendor_sony",
+    "repository": "TheMuppets/proprietary_vendor_sony",
     "target_path": "vendor/sony",
-    "branch": "mm6.0"
+    "branch": "cm-13.0"
   }
 ]
