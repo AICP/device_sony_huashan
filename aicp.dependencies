@@ -25,6 +25,11 @@
     "branch": "cm-14.1"
   },
   {
+    "repository": "CyanogenMod/android_packages_resources_devicesettings",
+    "target_path": "packages/resources/devicesettings",
+    "branch": "cm-14.1"
+  },
+  {
     "repository": "TheMuppets/proprietary_vendor_sony",
     "target_path": "vendor/sony",
     "branch": "cm-14.1"
