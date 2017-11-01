@@ -20,7 +20,17 @@
   <string name="lights_effects_title">Licht effecten</string>
   <string name="lights_effects_notification_category">Meldingen</string>
   <string name="lights_effects_notification_settings_title">Meldingen configureren</string>
+  <string name="lights_effects_notification_settings_summary">Instellingen meldingsled</string>
   <string name="lights_effects_music_category">Muziek licht effecten</string>
+  <string name="lights_effects_music_enable_title">Pulserende effecten bij muziek</string>
+  <string name="lights_effects_music_enable_summary">Audiosignaal bepaalt het ritme van de led</string>
+  <string name="lights_effects_music_gain_title">Audioversterking muziekeffecten</string>
+  <string name="lights_effects_music_gain_summary">Audiovolume aanpassen voor helderheid van de led</string>
+  <string name="lights_effects_music_gain_higher">Grote versterking</string>
+  <string name="lights_effects_music_gain_normal">Normale versterking</string>
+  <string name="lights_effects_music_gain_lower">Kleine versterking</string>
+  <string name="lights_effects_music_awake_title">Alleen knipperen als scherm aan is</string>
   <string name="lights_effects_music_awake_summary">Alleen effecten toestaan wanneer het apparaat wakker is</string>
   <string name="lights_effects_music_always_title">Altijd muziek effecten aanzetten</string>
+  <string name="lights_effects_music_always_summary">Alle audio-uitgangen gebruiken om de led te laten knipperen. Normale verlichting en melding van het opladen worden geblokkeerd.</string>
 </resources>

@@ -17,9 +17,4 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
   <!-- Lights effects -->
-  <string name="lights_effects_notification_category">الاشعارات</string>
-  <string name="lights_effects_music_enable_summary">تحكم قوة إشارة الصوت في مصابيح LED عند الإيقاع</string>
-  <string name="lights_effects_music_gain_summary">موازنة حجم الصوت مع إضاءة لمبات LED</string>
-  <string name="lights_effects_music_awake_summary">السماح بتاثيرات الموسيقى فقط عندما يكون الجهاز يعمل</string>
-  <string name="lights_effects_music_always_summary">استخدام كل المخارج الصوتية لومض لمبات LED. يتم حجب الأضواء العادية وإشعارات الشحن.</string>
 </resources>
