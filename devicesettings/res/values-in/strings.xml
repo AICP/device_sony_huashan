@@ -17,4 +17,8 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
   <!-- Lights effects -->
+  <string name="lights_effects_title">Efek lampu</string>
+  <string name="lights_effects_notification_category">Pemberitahuan</string>
+  <string name="lights_effects_music_category">Efek lampu musik</string>
+  <string name="lights_effects_music_enable_summary">Sinyal audio mengontrol LED dalam irama</string>
 </resources>
