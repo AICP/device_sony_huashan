@@ -19,6 +19,18 @@
   <!-- Lights effects -->
   <string name="lights_effects_title">Efek lampu</string>
   <string name="lights_effects_notification_category">Pemberitahuan</string>
+  <string name="lights_effects_notification_settings_title">Konfigurasikan pemberitahuan</string>
+  <string name="lights_effects_notification_settings_summary">Setelan akses lampu pemberitahuan</string>
   <string name="lights_effects_music_category">Efek lampu musik</string>
+  <string name="lights_effects_music_enable_title">Efek pulsa musik</string>
   <string name="lights_effects_music_enable_summary">Sinyal audio mengontrol LED dalam irama</string>
+  <string name="lights_effects_music_gain_title">Efek musik mendapatkan audio</string>
+  <string name="lights_effects_music_gain_summary">Skalakan volume audio untuk kecerahan LED</string>
+  <string name="lights_effects_music_gain_higher">Keuntungan yang lebih tinggi</string>
+  <string name="lights_effects_music_gain_normal">Keuntungan normal</string>
+  <string name="lights_effects_music_gain_lower">Turunkan keuntungan</string>
+  <string name="lights_effects_music_awake_title">Hanya pulsa dengan tampilan aktif</string>
+  <string name="lights_effects_music_awake_summary">Izinkan efek musik hanya saat perangkat sudah bangun</string>
+  <string name="lights_effects_music_always_title">Selalu aktifkan efek musik</string>
+  <string name="lights_effects_music_always_summary">Gunakan semua output audio untuk mengencangkan LED. Mencekal lampu normal dan pemberitahuan pengisian.</string>
 </resources>

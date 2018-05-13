@@ -17,4 +17,20 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
   <!-- Lights effects -->
+  <string name="lights_effects_title">조명 효과</string>
+  <string name="lights_effects_notification_category">알림</string>
+  <string name="lights_effects_notification_settings_title">알림 설정</string>
+  <string name="lights_effects_notification_settings_summary">알림 표시등 설정 접근</string>
+  <string name="lights_effects_music_category">음악 조명 효과</string>
+  <string name="lights_effects_music_enable_title">음악 펄스 효과</string>
+  <string name="lights_effects_music_enable_summary">리듬에 맞춰 오디오 신호가 LED를 제어</string>
+  <string name="lights_effects_music_gain_title">음악 효과 오디오 게인</string>
+  <string name="lights_effects_music_gain_summary">LED 밝기를 위한 오디오 볼륨 조정</string>
+  <string name="lights_effects_music_gain_higher">높은 게인</string>
+  <string name="lights_effects_music_gain_normal">보통 게인</string>
+  <string name="lights_effects_music_gain_lower">낮은 게인</string>
+  <string name="lights_effects_music_awake_title">디스플레이가 켜진 동안에만 펄스 효과</string>
+  <string name="lights_effects_music_awake_summary">장치가 깨어있을 때만 음악 효과 허용</string>
+  <string name="lights_effects_music_always_title">항상 음악 효과 사용</string>
+  <string name="lights_effects_music_always_summary">모든 오디오 출력을 LED를 펄스하는데 사용. 기본 밝기와 충전중 알림이 차단됩니다.</string>
 </resources>
